@@ -10,11 +10,11 @@ class UserAdmin(admin.ModelAdmin):
         'student_id',
         'grade',
         'circles',
-        'department', 
+        # 'department',
         'level',
         'date_joined'
         )
-    search_fields = ('user_id', 'name', 'student_id', 'department')
+    search_fields = ('user_id', 'name', 'student_id')
 
 
 admin.site.register(User, UserAdmin)
