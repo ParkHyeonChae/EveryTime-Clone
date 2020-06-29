@@ -74,17 +74,11 @@
                                     <td class="profile_title">학년</td>
                                     <td class="profile_content">{{ user_change_form.grade }}</td>
                                 </tr>
-                                {% if user.department == '컴퓨터공학부' %}
                                 <tr>
                                     <td class="profile_title">동아리</td>
                                     <td class="profile_content">{{ user_change_form.circles }}</td>
                                 </tr>
-                                {% elif user.department != '컴퓨터공학부' %}
-                                <tr>
-                                    <td class="profile_title">학과</td>
-                                    <td class="profile_content">{{ user_change_form.department }}</td>
-                                </tr>
-                                {% endif %}
+                                
                             </table>
                             {% if user.department == '컴퓨터공학부' %}
                             <script type="text/javascript">

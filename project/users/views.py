@@ -14,10 +14,10 @@ from django.views.generic import CreateView, FormView, TemplateView
 from django.views.generic import View
 # from django.contrib.auth.views import PasswordResetConfirmView
 from .models import User
-# from free.models import Free, Comment
 from anonymous.models import Anonymous, AnonymousComment
-# from notice.models import Notice
-# from calender.models import Calender
+from notice.models import Notice
+from calender.models import Calender
+from free.models import Free, Comment
 from .forms import CsRegisterForm, RegisterForm, LoginForm, CustomUserChangeForm, CustomCsUserChangeForm, CheckPasswordForm, RecoveryIdForm, RecoveryPwForm, CustomSetPasswordForm, CustomPasswordChangeForm
 from django.http import HttpResponse
 import json
@@ -52,16 +52,16 @@ def index(request):
 # 메인화면(로그인 후)
 @login_message_required
 def main_view(request):
-    # notice_list = Notice.objects.order_by('-id')[:5]
-    # calendar_property = [x.event_id for x in Calender.objects.all() if x.d_day == False]
-    # calendar_list = Calender.objects.exclude(event_id__in=calendar_property).order_by('start_date')[:5]
-    # free_list = Free.objects.filter(category='정보').order_by('-id')[:5]
+    notice_list = Notice.objects.order_by('-id')[:5]
+    calendar_property = [x.event_id for x in Calender.objects.all() if x.d_day == False]
+    calendar_list = Calender.objects.exclude(event_id__in=calendar_property).order_by('start_date')[:5]
+    free_list = Free.objects.filter(category='정보').order_by('-id')[:5]
     anonymous_list = sorted(Anonymous.objects.all(), key=lambda t: t.like_count, reverse=True)[:5]
 
     context = {
-        # 'notice_list' : notice_list,
-        # 'calendar_list' : calendar_list,
-        # 'free_list' : free_list,
+        'notice_list' : notice_list,
+        'calendar_list' : calendar_list,
+        'free_list' : free_list,
         'anonymous_list' : anonymous_list,
     }
     return render(request, 'users/main.html', context)
@@ -155,7 +155,7 @@ class CsRegisterView(CreateView):
         # 회원가입 인증 메일 발송
         # ISSUE - https 통신오류 -> http 프로토콜 수정
         send_mail(
-            '[인제대학교 컴퓨터공학부 RE:BORN] {}님의 회원가입 인증메일 입니다.'.format(self.object.user_id),
+            '[인제대학교 컴퓨터공학부 INJE:TIME] {}님의 회원가입 인증메일 입니다.'.format(self.object.user_id),
             [self.object.email],
             html=render_to_string('users/register_email.html', {
                 'user': self.object,
@@ -204,21 +204,14 @@ def profile_view(request):
 @login_message_required
 def profile_update_view(request):
     if request.method == 'POST':
-        if request.user.department == '컴퓨터공학부':
-            user_change_form = CustomCsUserChangeForm(request.POST, instance = request.user)
-        else:   
-            user_change_form = CustomUserChangeForm(request.POST, instance = request.user)
+        user_change_form = CustomCsUserChangeForm(request.POST, instance = request.user)
 
         if user_change_form.is_valid():
             user_change_form.save()
             messages.success(request, '회원정보가 수정되었습니다.')
             return render(request, 'users/profile.html')
     else:
-        if request.user.department == '컴퓨터공학부':
-            user_change_form = CustomCsUserChangeForm(instance = request.user)
-        else:   
-            user_change_form = CustomUserChangeForm(instance = request.user)
-
+        user_change_form = CustomCsUserChangeForm(instance = request.user)
         return render(request, 'users/profile_update.html', {'user_change_form':user_change_form})
 
 
@@ -302,7 +295,7 @@ def ajax_find_pw_view(request):
         result_pw.save()
 
         send_mail(
-            '[인제대학교 컴퓨터공학부 RE:BORN] 비밀번호 찾기 인증메일입니다.',
+            '[인제대학교 컴퓨터공학부 INJE:TIME] 비밀번호 찾기 인증메일입니다.',
             [email],
             html=render_to_string('users/recovery_email.html', {
                 'auth_num': auth_num,
@@ -359,10 +352,10 @@ def auth_pw_reset_view(request):
 @login_message_required
 @require_GET
 def profile_post_view(request):
-    # free_list = Free.objects.filter(writer=request.user.id).order_by('-registered_date')
+    free_list = Free.objects.filter(writer=request.user.id).order_by('-registered_date')
     anonymous_list = Anonymous.objects.filter(writer=request.user.id).order_by('-registered_date')
     context = {
-        # 'free_list': free_list,
+        'free_list': free_list,
         'anonymous_list': anonymous_list,
     }
     if request.user.level == '0' or request.user.level == '1' :
@@ -376,10 +369,10 @@ def profile_post_view(request):
 @login_message_required
 @require_GET
 def profile_comment_view(request):
-    # comment_list = Comment.objects.select_related('post').filter(writer=request.user).exclude(deleted=True).order_by('-created')
+    comment_list = Comment.objects.select_related('post').filter(writer=request.user).exclude(deleted=True).order_by('-created')
     anonymous_comment_list = AnonymousComment.objects.select_related('post').filter(writer=request.user).exclude(deleted=True).order_by('-created')
     context = {
-        # 'comment_list': comment_list,
+        'comment_list': comment_list,
         'anonymous_comment_list': anonymous_comment_list,
     }
     return render(request, 'users/profile_comment.html', context)

@@ -116,10 +116,14 @@
                         <a href="#pageSubmenu1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle menu2"><i
                                 class="fas fa-pen" style="margin-right:4px;"></i>&nbsp;&nbsp;커뮤니티</a>
                         <ul class="collapse list-unstyled" id="pageSubmenu1">
-                            <!-- <li>
+                            <li>
+                                <a href="{% url 'notice:notice_list' %}">
                                 <i class="fas fa-clipboard-check"></i>&nbsp;&nbsp;공지사항</a>
-                            </li> -->
-                            
+                            </li>
+                            <li>
+                                <a href="{% url 'free:all_list' %}"><i
+                                        class="fas fa-clipboard-list"></i>&nbsp;&nbsp;자유게시판</a>
+                            </li>
                             <li>
                                 <a href="{% url 'anonymous:anonymous_list' %}"><i
                                         class="fas fa-clipboard"></i>&nbsp;&nbsp;익명게시판</a>
@@ -130,6 +134,9 @@
                         <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle menu3"><i
                                 class="fas fa-graduation-cap"></i>&nbsp;&nbsp;학사정보</a>
                         <ul class="collapse list-unstyled" id="pageSubmenu2">
+                            <li>
+                                <a href="{% url 'calendar:calendar' %}"><i class="fas fa-calendar-check"></i>&nbsp;&nbsp;학사일정</a>
+                            </li>
                             <li>
                                 <a href="{% url 'timetable:timetable_list' %}"><i class="fas fa-table"></i>&nbsp;&nbsp;시험시간표</a>
                             </li>
@@ -179,7 +186,7 @@
                     </button>
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <a href="/" style="margin-left: 30px; font-size: 22px; font-weight: bold; color:#d14040f2; cursor: pointer; left:20">INJE:REBORN</a>
+                        <a href="/" style="margin-left: 30px; font-size: 22px; font-weight: bold; color:#d14040f2; cursor: pointer; left:20">INJE:TIME</a>
                         <ul class="nav navbar-nav ml-auto">
                             <!-- <li class="nav-item active"> -->
                             <li class="nav-item">

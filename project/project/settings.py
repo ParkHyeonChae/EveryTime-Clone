@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     'anonymous',
     'timetable',
     'notice',
+    'calender',
+    'free',
 ]
 
 AUTH_USER_MODEL = "users.User"

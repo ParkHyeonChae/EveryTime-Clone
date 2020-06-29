@@ -69,13 +69,13 @@ class CustomUserChangeForm(UserChangeForm):
     grade = forms.ChoiceField(choices=GRADE_CHOICES, label='학년', widget=forms.Select(
         attrs={'class': 'form-control',}), 
     )
-    department = forms.ChoiceField(choices=DEPARTMENT_CHOICES, label='학과', widget=forms.Select(
-        attrs={'class': 'form-control',}), 
-    )
+    # department = forms.ChoiceField(choices=DEPARTMENT_CHOICES, label='학과', widget=forms.Select(
+    #     attrs={'class': 'form-control',}), 
+    # )
        
     class Meta:
         model = get_user_model()
-        fields = ['hp', 'name', 'student_id', 'grade', 'department']
+        fields = ['hp', 'name', 'student_id', 'grade']
 
 
 # 컴공회원정보 수정 폼
@@ -281,7 +281,7 @@ class CsRegisterForm(UserCreationForm):
     def save(self, commit=True):
         user = super(CsRegisterForm, self).save(commit=False)
         user.level = '2'
-        user.department = '컴퓨터공학부'
+        # user.department = '컴퓨터공학부'
         user.is_active = False
         user.save()
 
@@ -296,9 +296,9 @@ class RegisterForm(UserCreationForm):
     grade = forms.ChoiceField(choices=GRADE_CHOICES, label='학년', widget=forms.Select(
         attrs={'class': 'form-control'}),
     )
-    department = forms.ChoiceField(choices=DEPARTMENT_CHOICES, label='학과', widget=forms.Select(
-        attrs={'class': 'form-control'}),
-    )
+    # department = forms.ChoiceField(choices=DEPARTMENT_CHOICES, label='학과', widget=forms.Select(
+    #     attrs={'class': 'form-control'}),
+    # )
 
     def __init__(self, *args, **kwargs):
         super(RegisterForm, self).__init__(*args, **kwargs)
@@ -339,7 +339,7 @@ class RegisterForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['user_id', 'password1', 'password2', 'email', 'name', 'hp', 'department', 'grade', 'student_id']
+        fields = ['user_id', 'password1', 'password2', 'email', 'name', 'hp', 'grade', 'student_id']
 
     def save(self, commit=True):
         user = super(RegisterForm, self).save(commit=False)
